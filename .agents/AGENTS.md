@@ -53,6 +53,10 @@ _(Nota: La estructura exacta de carpetas se definirá más adelante. Por ahora, 
 - **Sintaxis Moderna**: Prefiere `?.` (Optional Chaining) y `??` (Nullish Coalescing) sobre `&&` y `||`.
 - **Limpieza**: El código comentado está prohibido en el repositorio final. No deshabilites reglas de ESLint en el código fuente.
 
+### Seguridad y Respuestas HTTP
+
+- **Mensajes Amigables y Seguros**: Al retornar errores o mensajes al frontend, **NUNCA** devuelvas detalles técnicos internos (ej. `id no encontrado`, `syntax error`). Los mensajes deben orientarse al usuario y ser abstractos para no exponer pistas sobre el funcionamiento interno (ej. `La información solicitada no está disponible` o `Los datos proporcionados son incorrectos`).
+
 ## 4. Ecosistema y Dependencias 📦
 
 - **Gestor de Paquetes**: Usa **ÚNICAMENTE** `pnpm` (`pnpm install`, `pnpm run`).
