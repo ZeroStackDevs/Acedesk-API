@@ -1,4 +1,17 @@
-name: Backend CI Pipeline
+# ============================================================================
+# CI Pipeline — Validación Progresiva por Nivel de Rama
+# ============================================================================
+#
+# La rigurosidad escala conforme el código se acerca a producción:
+#
+#   feat → feat       : Prettier, ESLint, ls-lint, TypeScript
+#   feat → phase      : + Dependency Cruiser (arquitectura)
+#   phase → develop   : + Build, Tests (futuro)
+#   develop → production : + Knip (código muerto)
+#
+# ============================================================================
+
+name: CI Pipeline
 
 on:
   pull_request:
@@ -7,43 +20,48 @@ on:
       - production
       - develop
       - 'phase/**'
+      - 'feat/**'
+      - 'fix/**'
+      - 'refactor/**'
+      - 'chore/**'
 
 concurrency:
-  group: ci-pr-${{ github.ref }}
+  group: ci-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
-  ci-pipeline:
+  ci:
+    name: Validate PR
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pull-requests: write
 
-    runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Source Code
+      # ── Setup ──────────────────────────────────────────────────────────
+
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
+        uses: pnpm/action-setup@v4
 
-      - name: Install NodeJS
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
 
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v1
-
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Validate PR Title
+      # ── PR Title (Semantic) ────────────────────────────────────────────
+
+      - name: Validate PR title
         uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,32 +74,61 @@ jobs:
             refactor
             chore
           scopes: |
-            infra
-            api
-            database
-            security
             core
             admindesk
             classtrack
+            security
+            api
+            database
+            infra
+            deps
+            tools
+            docs
+            root
+            ci
           requireScope: false
           subjectPattern: ^(?=.{1,120}$)[a-zA-Z].+$
 
-      - name: File Structure Lint (ls-lint)
-        run: bun run lint:files
+      # ── Nivel 1: Base (TODAS las ramas) ────────────────────────────────
+      # Prettier · ESLint · ls-lint · TypeScript
 
-      - name: Architecture Lint (Dependency Cruiser)
-        run: bun run lint:deps
-
-      - name: Code Formatting Check (Prettier)
-        run: bun x prettier --check "**/*.{ts,json,md}"
+      - name: Code Formatting (Prettier)
+        run: pnpm exec prettier --check "**/*.{ts,js,json,md,yaml,yml}"
 
       - name: Code Linting (ESLint)
-        run: bun run lint
+        run: pnpm run lint
 
-      - name: Static Type Checking (TypeScript)
-        run: bun run typecheck
+      - name: File Naming (ls-lint)
+        run: pnpm run lint:files
 
-      - name: Dead Code & Dependency Analysis (Knip)
-        # Se ejecuta SOLO al fusionar una fase terminada hacia develop
-        if: github.base_ref == 'develop' && startsWith(github.head_ref, 'phase/')
-        run: bun run knip
+      - name: Type Checking (TypeScript)
+        run: pnpm run typecheck
+
+      # ── Nivel 2: feat → phase (+ Dependency Cruiser) ───────────────────
+
+      - name: Architecture Rules (Dependency Cruiser)
+        if: >-
+          startsWith(github.base_ref, 'phase/')
+          || github.base_ref == 'develop'
+          || github.base_ref == 'production'
+        run: pnpm run lint:deps
+
+      # ── Nivel 3: phase → develop (+ Build + Tests) ────────────────────
+
+      - name: Build
+        if: >-
+          github.base_ref == 'develop'
+          || github.base_ref == 'production'
+        run: pnpm run build
+
+      # - name: Tests
+      #   if: >-
+      #     github.base_ref == 'develop'
+      #     || github.base_ref == 'production'
+      #   run: pnpm run test
+
+      # ── Nivel 4: develop → production (+ Knip) ────────────────────────
+
+      - name: Dead Code Analysis (Knip)
+        if: github.base_ref == 'production'
+        run: pnpm run knip
