@@ -1,0 +1,129 @@
+ls:
+  # ── Raíz del proyecto ──────────────────────────────────────────────────────
+  src:
+    .dir: kebab-case
+
+  # ── Capas de Clean Architecture ───────────────────────────────────────────
+  'src/**/domain/**':
+    .dir: kebab-case
+
+  'src/**/application/**':
+    .dir: kebab-case
+
+  'src/**/infrastructure/**':
+    .dir: kebab-case
+
+  'src/**/presentation/**':
+    .dir: kebab-case
+
+  'src/**/di/**':
+    .dir: kebab-case
+
+  # ── Capa Domain ───────────────────────────────────────────────────────────
+  'src/**/entities/**':
+    .ts: regex:^[a-z0-9-]+\.entity(\.spec)?$
+  'src/**/repositories/**':
+    .ts: regex:^[a-z0-9-]+\.repository(\.spec)?$
+  'src/**/datasources/**':
+    .ts: regex:^[a-z0-9-]+\.datasource(\.spec)?$
+  'src/**/value-objects/**':
+    .ts: regex:^[a-z0-9-]+\.value-object(\.spec)?$
+
+  # ── Capa Application ──────────────────────────────────────────────────────
+  'src/**/use-cases/**':
+    .ts: regex:^[a-z0-9-]+\.use-case(\.spec)?$
+  'src/**/dtos/**':
+    .ts: regex:^[a-z0-9-]+\.dto(\.spec)?$
+
+  # ── Capa Infrastructure ───────────────────────────────────────────────────
+  'src/**/mappers/**':
+    .ts: regex:^[a-z0-9-]+\.mapper(\.spec)?$
+  'src/**/schemas/**':
+    .ts: regex:^[a-z0-9-]+\.schema(\.spec)?$
+  'src/**/models/**':
+    .ts: regex:^[a-z0-9-]+\.model(\.spec)?$
+  'src/**/migrations/**':
+    .ts: regex:^[0-9]+-[a-z0-9-]+$
+  'src/**/seeders/**':
+    .ts: regex:^[a-z0-9-]+\.seeder(\.spec)?$
+
+  # ── Capa Presentation ─────────────────────────────────────────────────────
+  'src/**/controllers/**':
+    .ts: regex:^[a-z0-9-]+\.controller(\.spec)?$
+  'src/**/guards/**':
+    .ts: regex:^[a-z0-9-]+\.guard(\.spec)?$
+  'src/**/interceptors/**':
+    .ts: regex:^[a-z0-9-]+\.interceptor(\.spec)?$
+  'src/**/middlewares/**':
+    .ts: regex:^[a-z0-9-]+\.middleware(\.spec)?$
+  'src/**/pipes/**':
+    .ts: regex:^[a-z0-9-]+\.pipe(\.spec)?$
+  'src/**/filters/**':
+    .ts: regex:^[a-z0-9-]+\.filter(\.spec)?$
+
+  # ── Shared & Cross-cutting ────────────────────────────────────────────────
+  'src/**/services/**':
+    .ts: regex:^[a-z0-9-]+\.service(\.spec)?$
+  'src/**/providers/**':
+    .ts: regex:^[a-z0-9-]+\.provider(\.spec)?$
+  'src/**/modules/**':
+    .ts: regex:^[a-z0-9-]+\.module(\.spec)?$
+  'src/**/decorators/**':
+    .ts: regex:^[a-z0-9-]+\.decorator(\.spec)?$
+  'src/**/validators/**':
+    .ts: regex:^[a-z0-9-]+\.validator(\.spec)?$
+  'src/**/exceptions/**':
+    .ts: regex:^[a-z0-9-]+\.exception(\.spec)?$
+  'src/**/errors/**':
+    .ts: regex:^[a-z0-9-]+\.error(\.spec)?$
+  'src/**/constants/**':
+    .ts: regex:^[a-z0-9-]+\.constant$
+  'src/**/types/**':
+    .ts: regex:^[a-z0-9-]+\.type$
+  'src/**/interfaces/**':
+    .ts: regex:^[a-z0-9-]+\.interface$
+  'src/**/enums/**':
+    .ts: regex:^[a-z0-9-]+\.enum$
+  'src/**/helpers/**':
+    .ts: regex:^[a-z0-9-]+\.helper(\.spec)?$
+  'src/**/utils/**':
+    .ts: regex:^[a-z0-9-]+\.util(\.spec)?$
+  'src/**/config/**':
+    .ts: regex:^[a-z0-9-]+\.config(\.spec)?$
+  'src/**/configs/**':
+    .ts: regex:^[a-z0-9-]+\.config(\.spec)?$
+
+  # ── Patrones de diseño ────────────────────────────────────────────────────
+  'src/**/strategies/**':
+    .ts: regex:^[a-z0-9-]+\.strategy(\.spec)?$
+  'src/**/factories/**':
+    .ts: regex:^[a-z0-9-]+\.factory(\.spec)?$
+  'src/**/adapters/**':
+    .ts: regex:^[a-z0-9-]+\.adapter(\.spec)?$
+  'src/**/commands/**':
+    .ts: regex:^[a-z0-9-]+\.command(\.spec)?$
+
+  # ── Regla general de src ──────────────────────────────────────────────────
+  src/**:
+    .dir: kebab-case
+    .ts: kebab-case
+
+ignore:
+  - node_modules
+  - .git
+  - .github
+  - .husky
+  - dist
+  - build
+  - .vscode
+  - .docs
+  - .agents
+  - __test__
+  - __tests__
+  - test
+  - .env
+  - '*.json'
+  - '*.config.js'
+  - '*.config.mjs'
+  - '*.config.ts'
+  - pnpm-lock.yaml

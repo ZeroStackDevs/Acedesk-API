@@ -1,0 +1,27 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "eslint.useFlatConfig": true,
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "package.json": "pnpm-lock.yaml, nest-cli.json, tsconfig*.json",
+    "README.md": "CONTRIBUTING.md, LICENSE, CHANGELOG.md",
+    "eslint.config.mjs": ".prettier*, .ls-lint.yml, commitlint.config.ts, .dependency-cruiser.js, knip.config.ts, lint-staged.config.*, jest*.config.ts, .husky, .npmrc",
+    ".env.template": ".env*",
+    "Dockerfile": "docker*.yml, .dockerignore, Dockerfile.*",
+    "*.ts": "${capture}.spec.ts, ${capture}.e2e-spec.ts"
+  }
+}

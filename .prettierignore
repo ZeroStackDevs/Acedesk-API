@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Producción
+dist/
+build/
+dist-ssr/
+
+# Archivos de configuración
+pnpm-lock.yaml
+
+# Entornos
+.env
+.env.*
