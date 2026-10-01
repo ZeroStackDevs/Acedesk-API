@@ -1,0 +1,87 @@
+name: Backend CI Pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - production
+      - develop
+      - 'phase/**'
+
+concurrency:
+  group: ci-pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-pipeline:
+    permissions:
+      contents: read
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate PR Title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            chore
+          scopes: |
+            infra
+            api
+            database
+            security
+            core
+            admindesk
+            classtrack
+          requireScope: false
+          subjectPattern: ^(?=.{1,120}$)[a-zA-Z].+$
+
+      - name: File Structure Lint (ls-lint)
+        run: bun run lint:files
+
+      - name: Architecture Lint (Dependency Cruiser)
+        run: bun run lint:deps
+
+      - name: Code Formatting Check (Prettier)
+        run: bun x prettier --check "**/*.{ts,json,md}"
+
+      - name: Code Linting (ESLint)
+        run: bun run lint
+
+      - name: Static Type Checking (TypeScript)
+        run: bun run typecheck
+
+      - name: Dead Code & Dependency Analysis (Knip)
+        # Se ejecuta SOLO al fusionar una fase terminada hacia develop
+        if: github.base_ref == 'develop' && startsWith(github.head_ref, 'phase/')
+        run: bun run knip
