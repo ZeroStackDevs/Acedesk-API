@@ -15,7 +15,6 @@ Antes de comenzar a codificar, asegúrate de tener:
 - **Git** instalado y configurado.
 - **Node.js** (v22 o superior).
 - **pnpm** (v9+) como gestor estricto de dependencias (`pnpm install`).
-- **bun** para la ejecución ultrarrápida de scripts (`bun run <script>`).
 - **Husky y Commitlint** habilitados (se instalan automáticamente tras el primer `pnpm install`).
 
 ---
@@ -55,6 +54,34 @@ El número del ticket al final de la rama es **OBLIGATORIO** para que GitHub Pro
 - `feat/core-tenant-model-3`
 - `fix/auth-jwt-claims-12`
 - `chore/infra-toolchain-setup-1`
+
+### Sub-ramas de Trabajo (Opcional)
+
+Cuando una funcionalidad es demasiado grande para resolverse en un solo PR, se puede dividir en sub-ramas que hacen merge hacia la rama de trabajo principal. Estas sub-ramas no requieren el ID del ticket ya que se vinculan indirectamente a través de su rama padre.
+
+```text
+phase/01-core-database
+└── feat/core-tenant-model-3
+    ├── feat/core-tenant-entity
+    └── feat/core-tenant-repository
+```
+
+### 🔒 Validaciones CI por Nivel de Rama
+
+Al abrir un Pull Request, el pipeline de CI ejecuta validaciones progresivas según la rama destino. Mientras más cerca de `production`, más estricto es el control:
+
+| Validación                  | `feat → feat` | `feat → phase` | `phase → develop` | `develop → production` |
+| --------------------------- | :-----------: | :------------: | :---------------: | :--------------------: |
+| Prettier (formato)          |      ✅       |       ✅       |        ✅         |           ✅           |
+| ESLint (calidad)            |      ✅       |       ✅       |        ✅         |           ✅           |
+| ls-lint (nomenclatura)      |      ✅       |       ✅       |        ✅         |           ✅           |
+| TypeScript (tipado)         |      ✅       |       ✅       |        ✅         |           ✅           |
+| Dep. Cruiser (arquitectura) |      ❌       |       ✅       |        ✅         |           ✅           |
+| Build (compilación)         |      ❌       |       ❌       |        ✅         |           ✅           |
+| Knip (código muerto)        |      ❌       |       ❌       |        ❌         |           ✅           |
+
+> **¿Por qué esta progresión?**
+> En ramas de trabajo (`feat/`) se prioriza la velocidad de iteración sin sacrificar la calidad base. `Knip` se omite en `phase/` y `develop` porque pueden existir funciones o dependencias preparadas para otra feature de la misma fase. Solo al llegar a `production` todo el código debe estar completamente justificado.
 
 ---
 
@@ -144,7 +171,7 @@ El ecosistema está protegido por linters estrictos. Tu código debe respetarlos
 3. **Desarrolla la funcionalidad, formatea y sube los cambios:**
 
    ```bash
-   bun run lint
+   pnpm run lint
    git add .
    git commit -m "feat(database): create tenant and saasplan models"
    git push origin feat/core-tenant-model-3
@@ -157,7 +184,7 @@ El ecosistema está protegido por linters estrictos. Tu código debe respetarlos
 ## ✅ Checklist antes de solicitar un Code Review
 
 - [ ] Entendí los Criterios de Aceptación del ticket Kanban.
-- [ ] Ejecuté `bun run lint` y `bun x prettier --check .` localmente.
-- [ ] Ejecuté `bun run typecheck` (TypeScript) sin arrojar errores.
+- [ ] Ejecuté `pnpm run lint` y `pnpm exec prettier --check .` localmente.
+- [ ] Ejecuté `pnpm run typecheck` (TypeScript) sin arrojar errores.
 - [ ] El nombre de mi rama termina con el ID del ticket.
 - [ ] Enlacé el número del ticket en el cuerpo del Pull Request.
