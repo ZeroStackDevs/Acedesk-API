@@ -18,3 +18,4 @@ async function bootstrap(): Promise<void> {
   await app.listen(process.env.PORT ?? DEFAULT_PORT);
 }
 void bootstrap();
+// Trigger CI
