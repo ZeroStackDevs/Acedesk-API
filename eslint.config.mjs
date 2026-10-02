@@ -1,5 +1,7 @@
 import js from '@eslint/js';
+import { enforceAbsoluteImports } from './eslint-rules/enforce-absolute-imports.mjs';
 import { noCommentedCode } from './eslint-rules/no-commented-code.mjs';
+import { preferStaticClass } from './eslint-rules/prefer-static-class.mjs';
 import importPlugin from 'eslint-plugin-import';
 import prettierPluginRecommended from 'eslint-plugin-prettier/recommended';
 import securityPlugin from 'eslint-plugin-security';
@@ -229,17 +231,24 @@ export default defineConfig([
     },
   },
 
-  // --- CALIDAD: SIN CÓDIGO COMENTADO ---
+  // --- CALIDAD: SIN CÓDIGO COMENTADO Y AUTO-FIX DE RUTAS RELATIVAS ---
   // Criterio: No deben existir bloques de código comentado en el fuente.
-  // Regla personalizada compatible con ESLint 10+ (los plugins npm disponibles
-  // usan context.getSourceCode() que fue removido en ESLint v10).
+  // Criterio: Las rutas relativas deben ser convertidas a alias @/ automáticamente.
   {
     files: ['**/*.ts'],
     plugins: {
-      'local': { rules: { 'no-commented-code': noCommentedCode } },
+      local: {
+        rules: {
+          'no-commented-code': noCommentedCode,
+          'enforce-absolute-imports': enforceAbsoluteImports,
+          'prefer-static-class': preferStaticClass,
+        },
+      },
     },
     rules: {
       'local/no-commented-code': 'error',
+      'local/enforce-absolute-imports': 'error',
+      'local/prefer-static-class': 'error',
     },
   },
 
@@ -252,6 +261,14 @@ export default defineConfig([
     },
     rules: {
       ...securityPlugin.configs.recommended.rules,
+    },
+  },
+
+  // --- TESTS ---
+  {
+    files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
+    rules: {
+      '@typescript-eslint/no-magic-numbers': 'off',
     },
   },
 ]);

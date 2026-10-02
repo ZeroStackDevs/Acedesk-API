@@ -48,7 +48,8 @@ Puedes auditar el proyecto de forma manual ejecutando los siguientes scripts con
    - `typecheck`: Compila y busca errores de tipado en todo el proyecto.
 2. **Formateo, Análisis Estático y Estructura**
    - `format`: Ejecuta Prettier para formatear de manera automática el código.
-   - `lint`: Ejecuta ESLint para reportar y reparar problemas de sintaxis o estilo de código.
+   - `lint`: Ejecuta ESLint en modo solo lectura para reportar problemas de sintaxis, estilo o imports.
+   - `lint:fix`: Ejecuta ESLint aplicando correcciones automáticas (auto-fix) como el reemplazo de rutas relativas a absolutas.
    - `lint:files`: Verifica con `ls-lint` que los nombres de archivos y carpetas cumplan las convenciones establecidas (por defecto, kebab-case).
    - `lint:deps`: Valida con `dependency-cruiser` que se respeten estrictamente las reglas de dependencias de la Clean Architecture.
    - `knip`: Audita el proyecto detectando código muerto, archivos huérfanos o dependencias sin uso en toda la aplicación.
