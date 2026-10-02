@@ -53,6 +53,11 @@ _(Nota: La estructura exacta de carpetas se definirá más adelante. Por ahora, 
 - **Sintaxis Moderna**: Prefiere `?.` (Optional Chaining) y `??` (Nullish Coalescing) sobre `&&` y `||`.
 - **Limpieza**: El código comentado está prohibido en el repositorio final. No deshabilites reglas de ESLint en el código fuente.
 
+### Clases vs Funciones (Inversión de Dependencias)
+
+- **Funciones Puras / Estáticas (SÍ permitidas)**: Úsalas **SOLO** para operaciones que transforman datos en memoria sin efectos secundarios (ej. formateadores, sanitización, cálculos matemáticos simples). Es más idiomático exportar la función simple directamente en lugar de envolverla en una clase estática.
+- **Clases Estáticas (PROHIBIDAS)**: NUNCA uses clases o funciones estáticas para dependencias externas, librerías de terceros o efectos secundarios (ej. BcryptAdapter, HashUtils, llamadas a BD). Esto acopla rígidamente los Casos de Uso, rompe el Principio de Inversión de Dependencias (la 'D' de SOLID) e imposibilita crear mocks en las pruebas. **Solución:** Define una interfaz en Domain, impleméntala en Infrastructure o Shared, e inyéctala usando Inyección de Dependencias (DI).
+
 ### Seguridad y Respuestas HTTP
 
 - **Mensajes Amigables y Seguros**: Al retornar errores o mensajes al frontend, **NUNCA** devuelvas detalles técnicos internos (ej. `id no encontrado`, `syntax error`). Los mensajes deben orientarse al usuario y ser abstractos para no exponer pistas sobre el funcionamiento interno (ej. `La información solicitada no está disponible` o `Los datos proporcionados son incorrectos`).

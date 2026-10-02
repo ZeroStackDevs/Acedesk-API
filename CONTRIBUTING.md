@@ -5,6 +5,7 @@
 Para ayudarnos a mantener el código impecable y altamente estandarizado, **te invitamos a leer detenidamente** nuestros dos documentos principales de estilo antes de escribir tu primera línea de código. ¡Son tu mejor guía para evitar rechazos en los PRs!
 👉 [Criterios de Calidad de Código](.docs/quality/quality-criteria-nest.md)
 👉 [Criterios de Nomenclatura de Archivos](.docs/quality/quality-criteria-nest-files.md)
+👉 [Estructura esperada](.docs/structure.md)
 
 ---
 
@@ -114,10 +115,11 @@ Identifican rápidamente el dominio afectado. Utiliza la lista correspondiente a
 
 **⚙️ Backend (NestJS)**
 
-- `core`: Lógica global SaaS y Super Admin.
-- `admindesk`: Gestión del instituto (Estudiantes, Niveles, Pagos).
-- `classtrack`: Asistencia y métricas de retención.
-- `security`: Autenticación, JWT, Guards y RBAC.
+- `core-saas`: Lógica global B2B, Tenants y Facturación SaaS.
+- `iam`: Identidad y Seguridad (Usuarios, Autenticación, Roles).
+- `classtrack`: Interacción del alumno, Asistencia y Retención.
+- `admindesk`: Operación del instituto (Estudiantes, Niveles, Finanzas).
+- `shared`: Código transversal (Decoradores, Filters, Guards globales).
 - `api`: Controladores, rutas, filtros globales.
 - `database`: Modelos Sequelize, migraciones, DatabaseModule.
 - `infra`: Configuración del framework, variables de entorno.
