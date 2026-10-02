@@ -40,6 +40,32 @@ jobs:
       pull-requests: write
 
     steps:
+      # ── Branch Flow Validation ─────────────────────────────────────────
+
+      - name: Validate Branch Flow Strategy
+        run: |
+          BASE_REF="${{ github.base_ref }}"
+          HEAD_REF="${{ github.head_ref }}"
+
+          echo "Target Branch (Base): $BASE_REF"
+          echo "Source Branch (Head): $HEAD_REF"
+
+          # Rule 1: production can ONLY receive from develop
+          if [[ "$BASE_REF" == "production" ]]; then
+            if [[ "$HEAD_REF" != "develop" ]]; then
+              echo "❌ Error: The Flow Strategy forbids merging '$HEAD_REF' directly into 'production'. Only 'develop' can be merged into production."
+              exit 1
+            fi
+          fi
+
+          # Rule 2: develop receives from phase/* OR emergency tasks (feat/fix/chore/refactor)
+          if [[ "$BASE_REF" == "develop" ]]; then
+            if [[ ! "$HEAD_REF" =~ ^(phase/|feat/|fix/|refactor/|chore/) ]]; then
+              echo "❌ Error: 'develop' can only receive PRs from 'phase/' branches or direct task branches (feat/, fix/, etc.). '$HEAD_REF' is not allowed."
+              exit 1
+            fi
+          fi
+
       # ── Setup ──────────────────────────────────────────────────────────
 
       - name: Checkout

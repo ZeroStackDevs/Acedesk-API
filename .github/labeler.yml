@@ -1,0 +1,85 @@
+# =======================================================
+# Github PR Auto-Labeler Configuration
+# =======================================================
+
+# ── Epics (Macro-Dominios) ─────────────────────────────
+'epic: core-saas':
+  - any:
+      - 'src/modules/core-saas/**/*'
+
+'epic: admindesk':
+  - any:
+      - 'src/modules/admindesk/**/*'
+
+'epic: classtrack':
+  - any:
+      - 'src/modules/classtrack/**/*'
+
+'epic: iam':
+  - any:
+      - 'src/modules/iam/**/*'
+
+# ── Features (Sub-módulos directos) ────────────────────
+# Core SaaS
+'feature: tenants':
+  - any:
+      - 'src/modules/core-saas/tenants/**/*'
+
+'feature: billing':
+  - any:
+      - 'src/modules/core-saas/billing/**/*'
+
+# IAM
+'feature: users':
+  - any:
+      - 'src/modules/iam/users/**/*'
+
+'feature: auth':
+  - any:
+      - 'src/modules/iam/auth/**/*'
+
+# ClassTrack
+'feature: attendance':
+  - any:
+      - 'src/modules/classtrack/attendance/**/*'
+
+'feature: academics':
+  - any:
+      - 'src/modules/classtrack/academics/**/*'
+
+'feature: retention':
+  - any:
+      - 'src/modules/classtrack/retention/**/*'
+
+# AdminDesk
+'feature: levels':
+  - any:
+      - 'src/modules/admindesk/levels/**/*'
+
+'feature: financials':
+  - any:
+      - 'src/modules/admindesk/financials/**/*'
+
+'feature: students':
+  - any:
+      - 'src/modules/admindesk/students/**/*'
+
+# ── Scopes y Capas Transversales ───────────────────────
+'scope: database':
+  - any:
+      - 'src/database/**/*'
+
+'scope: api':
+  - any:
+      - 'src/**/presentation/**/*'
+      - 'src/main.ts'
+
+'scope: security':
+  - any:
+      - 'src/shared/guards/**/*'
+      - 'src/shared/decorators/**/*'
+      - 'src/modules/iam/auth/**/*'
+
+'shared':
+  - any:
+      - 'src/shared/**/*'
