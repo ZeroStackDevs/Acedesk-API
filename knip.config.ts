@@ -6,8 +6,8 @@ const config: KnipConfig = {
   eslint: false,
 
   entry: [
-    'src/main.ts',         // Punto de entrada de la aplicación
-    'src/**/*.module.ts',  // Módulos NestJS (raíz del grafo de dependencias)
+    'src/main.ts', // Punto de entrada de la aplicación
+    'src/**/*.module.ts', // Módulos NestJS (raíz del grafo de dependencias)
   ],
 
   project: ['src/**/*.ts'],
