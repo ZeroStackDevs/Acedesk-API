@@ -27,26 +27,27 @@ const config: KnipConfig = {
     'source-map-support',
     // Plugins de ESLint (resueltos por eslint.config.mjs, fuera del alcance de knip)
     '@eslint/js',
-    'eslint',
     'eslint-plugin-prettier',
     'eslint-plugin-simple-import-sort',
     'eslint-plugin-security',
+    'eslint-plugin-import',
+    'eslint-plugin-sonarjs',
     'eslint-config-prettier',
     'globals',
     'typescript-eslint',
     // Express types (requeridos por NestJS platform-express internamente)
     '@types/express',
-    // Test utilities
+    // Test utilities (usados en la carpeta test/, ignorada por knip)
     '@types/supertest',
     'supertest',
+    '@nestjs/testing',
+    'ts-node',
+    'tsconfig-paths',
     // NestJS build tools
     '@nestjs/mau',
   ],
 
-  ignoreBinaries: [
-    // oxlint es un binario externo (no se instala via npm en este proyecto)
-    'oxlint',
-  ],
+  ignoreBinaries: [],
 
   // Knip no entiende los patrones de inyección de dependencias de NestJS por
   // defecto; los providers, módulos y decoradores son consumidos vía metadata
