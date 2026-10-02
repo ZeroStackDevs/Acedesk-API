@@ -11,11 +11,12 @@ const commitlintConfiguration: UserConfig = {
             2,
             "always",
             [
-                // Dominios de Negocio
-                "core",       // Módulo principal SaaS (Super Admin, Facturación B2B)
-                "admindesk",  // Módulo de gestión del instituto (Estudiantes, Niveles, Pagos)
-                "classtrack", // Módulo de control de asistencia y rendimiento (Kiosco, Retención)
-                "security",   // Módulo Auth, Guards, JWT y Claims-Based RBAC
+                // Dominios de Negocio y Estructura
+                "core-saas",  // Módulo B2B (Tenants, Facturación B2B)
+                "iam",        // Módulo de Identidad y Seguridad (Usuarios, Autenticación, Roles)
+                "classtrack", // Módulo de interacción del alumno (Asistencia, Notas, Retención)
+                "admindesk",  // Módulo de operación del instituto (Estudiantes, Niveles, Finanzas)
+                "shared",     // Código Transversal (Decoradores, Filters, Guards globales)
                 
                 // Capas Técnicas y Clean Architecture
                 "api",        // Controladores, rutas, filtros globales

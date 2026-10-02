@@ -74,10 +74,11 @@ jobs:
             refactor
             chore
           scopes: |
-            core
-            admindesk
+            core-saas
+            iam
             classtrack
-            security
+            admindesk
+            shared
             api
             database
             infra
