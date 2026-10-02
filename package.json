@@ -19,6 +19,7 @@
     "start:prod": "node dist/main",
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint:deps": "depcruise src --config .dependency-cruiser.js",
     "lint:files": "ls-lint",
     "typecheck": "tsc -b",
