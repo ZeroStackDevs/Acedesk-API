@@ -117,17 +117,21 @@ export default defineConfig([
         'error',
         {
           groups: [
-            // Core dependencies (NestJS and others)
+            // 1. Core dependencies (NestJS, librerías de terceros, etc.)
             ['^@nestjs', '^@?\\w'],
 
-            // Clean Architecture structure
-            ['^@/domain/'],
-            ['^@/application/'],
-            ['^@/infrastructure/'],
-            ['^@/presentation/'],
-            ['^@/di/'],
+            // 2. Infraestructura Global y Código Transversal
+            ['^@/shared/'],
+            ['^@/database/'],
+            ['^@/infra/'],
 
-            // Other local imports
+            // 3. Macro-Dominios de Negocio
+            ['^@/modules/core-saas/'],
+            ['^@/modules/iam/'],
+            ['^@/modules/admindesk/'],
+            ['^@/modules/classtrack/'],
+
+            // 4. Otros imports locales que no encajen arriba
             ['^@/'],
           ],
         },
