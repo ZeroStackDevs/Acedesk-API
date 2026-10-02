@@ -5,6 +5,7 @@
 Para ayudarnos a mantener el código impecable y altamente estandarizado, **te invitamos a leer detenidamente** nuestros dos documentos principales de estilo antes de escribir tu primera línea de código. ¡Son tu mejor guía para evitar rechazos en los PRs!
 👉 [Criterios de Calidad de Código](.docs/quality/quality-criteria-nest.md)
 👉 [Criterios de Nomenclatura de Archivos](.docs/quality/quality-criteria-nest-files.md)
+👉 [Estructura esperada](.docs/structure.md)
 
 ---
 
